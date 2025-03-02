@@ -36,7 +36,7 @@ internal abstract class StackTraceCommon() : Stacktrace {
     override fun toString(): String {
         return buildString {
             listFrame.forEachIndexed { index, frame ->
-                append("[$index] : $frame\n")
+                append("\t[$index] : $frame\n")
             }
         }
     }

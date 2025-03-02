@@ -1,6 +1,6 @@
 package sh.bitsy.lib.kloggy
 
-internal object AnsiEscapeUtil {
+object AnsiEscapeUtil {
     const val RESET = "\u001B[0m"
 
     const val BLACK = "\u001B[30m"

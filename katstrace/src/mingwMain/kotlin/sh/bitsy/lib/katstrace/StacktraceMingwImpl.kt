@@ -37,7 +37,7 @@ internal class FrameMingwImpl(stackTraceLine: String) : Frame, FrameExtraInfoMin
         if (match != null) {
             match.groupValues[1]
         } else {
-            "#"
+            "<root>"
         }
     }
 
@@ -45,8 +45,5 @@ internal class FrameMingwImpl(stackTraceLine: String) : Frame, FrameExtraInfoMin
     override val hexAddress: String = regex?.groupValues?.getOrNull(2) ?: "0x00000000"
     override val symbol: String = regex?.groupValues?.getOrNull(1) ?: ""
 
-    override fun toString(): String = if (referencePath == "#")
-        "<root_package>.$methodName() + $lineOrOffset"
-    else
-        "$referencePath.$methodName() + $lineOrOffset"
+    override fun toString(): String = "$referencePath#$methodName() + $lineOrOffset"
 }

@@ -1,4 +1,5 @@
 import sh.bitsy.lib.katstrace.Stacktrace
+import sh.bitsy.lib.kloggy.AnsiEscapeUtil
 import sh.bitsy.lib.kloggy.LogLevels
 import sh.bitsy.lib.kloggy.log
 import sh.bitsy.test.Hello
@@ -7,8 +8,8 @@ import sh.bitsy.test.secondShow
 @Suppress("NOTHING_TO_INLINE")
 fun logFrame() {
     println("============================================================")
-    println(Stacktrace(1))
-    println("============================================================")
+    print(Stacktrace(1))
+    println("============================================================\n")
 }
 
 fun main() {
@@ -17,13 +18,12 @@ fun main() {
     Hello().show()
     val thro = Hello().getAThrowable()
     println("============================================================")
-    println(Stacktrace(thro))
+    print(Stacktrace(thro))
     println("============================================================")
     TestDI.testDI(546687754, 1, 1, 1, 1, 1, 1, 1, 1, LogLevels.Info, LogLevels.Info, LogLevels.Info)
-    return
-
+    log(Stacktrace().currentFrame.toString(), AnsiEscapeUtil.colorize("Hello", AnsiEscapeUtil.CYAN, bold = true) + AnsiEscapeUtil.colorize("Hello", AnsiEscapeUtil.CYAN, bold = false))
     testLog()
-    TestDI.testDI(546687754, 1, 1, 1, 1, 1, 1, 1, 1, LogLevels.Info, LogLevels.Info, LogLevels.Info)
+    return
 }
 
 fun testLog() {
@@ -65,7 +65,7 @@ fun testLog() {
     log("Main", "Hello, world!", LogLevels.Info)
     log("Main", "Hello, world!", LogLevels.Verbose)
     log("Main", "Hello, world!", LogLevels.Debug)
-    log("Main", "Server Answer :\n$dummyJson", LogLevels.Debug)
+    log("Main", "Server Answer : ${dummyJson.replace("\n", "")}", LogLevels.Debug)
     log("Main", "Hello, world!", LogLevels.Debug)
     log("Main", "Hello, world!", LogLevels.Verbose)
     log("UserManager", "Hello, world!", LogLevels.Warning)
@@ -73,8 +73,5 @@ fun testLog() {
     log("MemoryCleaner", "Hello, world!", LogLevels.Error)
     log("User", "Hello, world!", LogLevels.Warning)
 
-    val stacktrace = Stacktrace().currentFrame
-
-    println("Function Name: ${stacktrace.referencePath}")
-    println("Function Name: ${stacktrace.methodName}")
+    print("${Stacktrace()}")
 }
