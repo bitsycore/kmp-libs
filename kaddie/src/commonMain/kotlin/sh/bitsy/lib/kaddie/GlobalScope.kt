@@ -6,7 +6,10 @@ import kotlin.reflect.KClass
 // MARK: DI CONTAINER
 // =================================
 
-private val container = DIContainerImpl()
+internal val container = DIContainerImpl().also {
+    val providers = getExternalProviders()
+    providers.forEach { provider -> it.registerExternalProvider(provider) }
+}
 
 // =================================
 // MARK: REGISTER
@@ -26,7 +29,7 @@ fun <T : Any> registerDependency(klass: KClass<T>, instance: T) = container.regi
  * The constructor will be called when the dependency is requested.
  * Use get() in the constructor to retrieve a dependency.
  */
-inline fun <reified T : Any> registerDependency(noinline constructor: DiContainer.() -> T) =
+inline fun <reified T : Any> registerDependency(noinline constructor: DependencyConstructor<T>) =
     registerDependency(T::class, constructor)
 
 /**
@@ -34,7 +37,7 @@ inline fun <reified T : Any> registerDependency(noinline constructor: DiContaine
  * The constructor will be called when the dependency is requested.
  * Use get() in the constructor to retrieve a dependency.
  */
-fun <T : Any> registerDependency(klass: KClass<T>, constructor: DiContainer.() -> T) =
+fun <T : Any> registerDependency(klass: KClass<T>, constructor: DependencyConstructor<T>) =
     container.register(klass, constructor)
 
 // =================================
@@ -44,8 +47,8 @@ fun <T : Any> registerDependency(klass: KClass<T>, constructor: DiContainer.() -
 /**
  * Get a dependency stored globally.
  */
-inline fun <reified T : Any> getDependency(): T = getDependency(T::class)
+inline fun <reified T : Any> getDependency(vararg extraParam: Any = emptyArray()): T = getDependency(T::class, *extraParam)
 /**
  * Get a dependency stored globally.
  */
-fun <T : Any> getDependency(klass: KClass<T>): T = container.get<T>(klass)
+fun <T : Any> getDependency(klass: KClass<T>, vararg extraParam: Any): T = container.get<T>(klass, *extraParam)

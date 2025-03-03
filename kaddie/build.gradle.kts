@@ -4,6 +4,8 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -16,6 +18,14 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+
+
+}
+
+dependencies {
+    implementation(libs.androidx.runtime.android)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
+    implementation(libs.androidx.lifecycle.viewmodel.compose.android)
 }
 
 kotlin {
@@ -29,6 +39,7 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
+
     }
 
     val xcf = XCFramework("Kaddie")
@@ -58,6 +69,10 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(compose.runtime)
+            implementation(libs.androidx.activity.compose)
+        }
         commonMain.dependencies {
             implementation(libs.kotlin.reflect)
         }
