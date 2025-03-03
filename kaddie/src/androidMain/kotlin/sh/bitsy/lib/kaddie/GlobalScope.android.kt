@@ -13,17 +13,12 @@ fun <T : Any> getDependency(clazz: Class<T>, vararg extraParam: Any = emptyArray
 
 @Composable
 inline fun <reified VM : ViewModel> viewModelDependency(): VM =
-	when (val viewModelStoreOwner = LocalContext.current as? ViewModelStoreOwner) {
-		null -> getDependency(
-			VM::class,
-			checkNotNull(LocalViewModelStoreOwner.current)
-		)
-
-		else -> getDependency(
-			VM::class,
-			viewModelStoreOwner
-		)
-	}
+	getDependency(
+		VM::class,
+		LocalContext.current as? ViewModelStoreOwner
+			?: LocalViewModelStoreOwner.current
+			?: error("No ViewModelStoreOwner found")
+	)
 
 inline fun <reified VM : ViewModel> ViewModelStoreOwner.viewModelDependency(): VM =
 	getDependency(VM::class, this)
