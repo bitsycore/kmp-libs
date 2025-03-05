@@ -47,3 +47,7 @@ val <R> KCallable<R>.haveOptionalParam: Boolean
 		}
 		return false
 	}
+
+fun baba() {
+
+}

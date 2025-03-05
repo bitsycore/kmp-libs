@@ -1,5 +1,3 @@
-@file:JvmName("ExternalProviderReflectionKt")
-
 package sh.bitsy.lib.kaddie
 
 import androidx.lifecycle.ViewModel
@@ -10,7 +8,7 @@ import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 import kotlin.reflect.full.isSubclassOf
 
-class ExternalProviderReflectionViewModel : ExternalProvider {
+class ExternalProviderViewModel : ExternalProvider {
 
 	override fun <T : Any> get(diContainer: DiContainer, klass: KClass<T>, vararg extraParam: Any): T? {
 		if (extraParam.isEmpty()) return null

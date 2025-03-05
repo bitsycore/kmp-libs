@@ -1,23 +1,7 @@
-/*==============================================================================
-
- Copyright (c) Spirtech 2024. All rights reserved.
-
- THIS FILE IS THE PROPERTY OF SPIRTECH SAS.
- IT CANNOT BE COPIED, TRANSMITTED, USED IN ANY WAY WITHOUT PRIOR WRITTEN AUTHORIZATION FROM SPIRTECH.
- FOR ANY QUESTION, CONTACT: spirtech@spirtech.com
-
- Author: DWA
-
- =============================================================================*/
-
 package sh.bitsy.lib.kaddie
 
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.javaConstructor
-
-// ======================================================================
-// COPY OF androidMain VERSION UNTIL COMMON JVM MAIN
-// ======================================================================
 
 class ExternalProviderJvmReflection : ExternalProvider {
 
@@ -43,17 +27,19 @@ class ExternalProviderJvmReflection : ExternalProvider {
 		}
 
 		// Get required dependencies
-		val dependencies = constructor.getDependenciesAsMap(diContainer, extraParam)
+		val dependenciesMap = constructor.getDependenciesAsMap(diContainer, extraParam)
 
 		val instance = if (!clazz.isInner || constructor.haveOptionalParam) {
-			constructor.callBy(dependencies)
+			constructor.callBy(dependenciesMap)
 		} else {
 			// Java Inner Class doesn't include kotlin inner class parameter identifier
 			// but it is still required for a callBy ... so we need to use the constructor
 			// in java directly
-			constructor.javaConstructor?.newInstance(*dependencies.values.toTypedArray()) ?:
+			constructor.javaConstructor?.newInstance(*dependenciesMap.values.toTypedArray()) ?:
 			throw error("Cannot create instance of class: $clazz")
 		}
+
+		dependencies[clazz] = instance
 
 		return instance
 	}
