@@ -8,12 +8,14 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import kotlin.reflect.KClass
 
 @Composable
-inline fun <reified VM : ViewModel> viewModelDependency(): VM =
+inline fun <reified VM : ViewModel> viewModelDependency(
+	viewModelStoreOwner: ViewModelStoreOwner = LocalContext.current as? ViewModelStoreOwner
+		?: LocalViewModelStoreOwner.current
+		?: error("No ViewModelStoreOwner found")
+): VM =
 	getDependency(
 		VM::class,
-		LocalContext.current as? ViewModelStoreOwner
-			?: LocalViewModelStoreOwner.current
-			?: error("No ViewModelStoreOwner found")
+		viewModelStoreOwner
 	)
 
 inline fun <reified VM : ViewModel> ViewModelStoreOwner.viewModelDependency(): VM =
