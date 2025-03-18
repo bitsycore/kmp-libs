@@ -1,8 +1,10 @@
 package sh.bitsy.lib.kaddie
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import java.lang.reflect.InvocationTargetException
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
@@ -28,9 +30,13 @@ class ExternalProviderViewModel : ExternalProvider {
 			return instance
 		}
 
-		val instance = ViewModelProvider(viewModelStoreOwner, viewModelFactoryWithDependencies(constructor, constructor.getDependenciesAsMap(diContainer, extraParam)))[klass]
-
-		return instance
+		try {
+			val instance = ViewModelProvider(viewModelStoreOwner, viewModelFactoryWithDependencies(constructor, constructor.getDependenciesAsMap(diContainer, extraParam)))[klass]
+			return instance
+		} catch (e: InvocationTargetException) {
+			Log.e("ExternalProviderViewModel", "Error creating ViewModel: ", e.targetException)
+			return null
+		}
 	}
 
 	private fun viewModelFactoryWithDependencies(
