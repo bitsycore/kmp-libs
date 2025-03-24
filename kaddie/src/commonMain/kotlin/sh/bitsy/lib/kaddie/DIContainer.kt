@@ -34,8 +34,8 @@ class DIContainerImpl : MutableDIContainer {
 
     override fun clear() = dependencies.clear()
 
-    override fun remove(klass: KClass<*>) {
-        dependencies.remove(klass)
+    override fun remove(key: KClass<*>) {
+        dependencies.remove(key)
     }
 
     override fun registerExternalProvider(externalProvider: ExternalProvider) {
