@@ -9,15 +9,19 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+val javaVersion: JavaVersion by rootProject.extra
+
 android {
     namespace = "sh.bitsy.lib.kaddie"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = rootProject.extra["compileSdk"] as Int
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
+
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk = rootProject.extra["minSdk"] as Int
     }
 }
 
@@ -29,7 +33,7 @@ kotlin {
     // Jvm
     jvm {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.fromTarget(javaVersion.toString()))
         }
     }
 
@@ -38,7 +42,7 @@ kotlin {
     androidTarget {
         // Android depend on the JVM target
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.fromTarget(javaVersion.toString()))
         }
 
     }
