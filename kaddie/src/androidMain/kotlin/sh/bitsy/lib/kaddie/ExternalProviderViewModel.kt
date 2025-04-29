@@ -12,14 +12,14 @@ import kotlin.reflect.full.isSubclassOf
 
 class ExternalProviderViewModel : ExternalProvider {
 
-	override fun <T : Any> get(diContainer: DiContainer, klass: KClass<T>, vararg extraParam: Any): T? {
+	override fun <T : Any> get(parentDependencies: DiContainer, klass: KClass<T>, vararg extraParam: Any): T? {
 		if (extraParam.isEmpty()) return null
 		val viewModelStoreOwner = extraParam[0] as? ViewModelStoreOwner ?: return null
 		if (!klass.isSubclassOf(ViewModel::class)) return null
 		@Suppress("UNCHECKED_CAST")
 		val castedClazz = klass as? KClass<ViewModel> ?: return null
 		@Suppress("UNCHECKED_CAST")
-		return ifTypeViewModel(viewModelStoreOwner, extraParam, diContainer, castedClazz) as? T
+		return ifTypeViewModel(viewModelStoreOwner, extraParam, parentDependencies, castedClazz) as? T
 	}
 
 	private fun ifTypeViewModel(viewModelStoreOwner: ViewModelStoreOwner, extraParam: Array<out Any>, diContainer: DiContainer, klass: KClass<ViewModel>): ViewModel? {
