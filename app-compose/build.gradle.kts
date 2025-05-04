@@ -41,7 +41,7 @@ android {
         compose = true
     }
     dependencies {
-        implementation(projects.testConsole)
+        implementation(projects.appConsole)
         debugImplementation(libs.androidx.compose.ui.tooling)
     }
 }
@@ -80,7 +80,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(projects.kaddie)
+            implementation(projects.libKaddie)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

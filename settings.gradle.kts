@@ -17,11 +17,11 @@ dependencyResolutionManagement {
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "KMP-Libs"
+rootProject.name = "Kaddie"
 
-include(":composeApp")
-include(":testConsole")
+include(":app-compose")
+include(":app-console")
 
-include(":kaddie")
-include(":kloggy")
-include(":katstrace")
+include(":lib-kaddie")
+include(":lib-kloggy")
+include(":lib-kstacktrace")

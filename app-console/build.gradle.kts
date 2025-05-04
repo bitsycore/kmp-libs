@@ -44,9 +44,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.kaddie)
-            implementation(projects.kloggy)
-            implementation(projects.katstrace)
+            implementation(projects.libKaddie)
+            implementation(projects.libKloggy)
+            implementation(projects.libKstacktrace)
         }
     }
 }
