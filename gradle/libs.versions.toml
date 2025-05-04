@@ -2,18 +2,12 @@
 # Base Config
 kotlin = "2.1.20"
 agp = "8.9.2"
-android-targetSdk = "35"
-android-compileSdk = "35"
-android-minSdk = "24"
 
 # KotlinX
 kotlinx-coroutines = "1.9.0"
 kotlinx-datetime = "0.6.1"
 kotlinx-io = "0.5.4"
 kotlinx-serialization = "1.8.0"
-
-# Compose
-compose-plugin = "1.7.3"
 
 # AndroidX
 androidx-lifecycle = "2.8.7"
@@ -33,13 +27,7 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 # Compose
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 
-# Debug
-androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-
 [plugins]
-# Compose Multiplatform
-jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
-
 # Android
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }

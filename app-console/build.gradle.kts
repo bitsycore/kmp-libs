@@ -7,13 +7,13 @@ plugins {
 
 android {
     namespace = "sh.bitsy.test"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = rootProject.extra["compileSdk"] as Int
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk = rootProject.extra["minSdk"] as Int
     }
 }
 

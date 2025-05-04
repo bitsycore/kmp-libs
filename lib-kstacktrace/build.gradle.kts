@@ -7,14 +7,14 @@ plugins {
 }
 
 android {
-    namespace = "sh.bitsy.lib.katstrace"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    namespace = "sh.bitsy.lib.kstacktrace"
+    compileSdk = rootProject.extra["compileSdk"] as Int
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk = rootProject.extra["minSdk"] as Int
     }
 }
 
@@ -31,7 +31,7 @@ kotlin {
         }
     }
 
-    val xcf = XCFramework("Katstrace")
+    val xcf = XCFramework("KStacktrace")
     listOf(
         macosArm64(),
         macosX64(),
@@ -40,7 +40,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "Katstrace"
+            baseName = "KStacktrace"
             isStatic = true
             xcf.add(this)
         }

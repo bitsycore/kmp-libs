@@ -23,5 +23,6 @@ include(":app-compose")
 include(":app-console")
 
 include(":lib-kaddie")
+include(":lib-kaddie-viewmodel")
 include(":lib-kloggy")
 include(":lib-kstacktrace")

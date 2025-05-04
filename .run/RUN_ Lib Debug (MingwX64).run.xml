@@ -2,7 +2,7 @@
   <configuration default="false" name="RUN: Lib Debug (MingwX64)" type="GradleRunConfiguration" factoryName="Gradle" folderName="Run Lib">
     <ExternalSystemSettings>
       <option name="executionName" />
-      <option name="externalProjectPath" value="$PROJECT_DIR$/testConsole" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/app-console" />
       <option name="externalSystemIdString" value="GRADLE" />
       <option name="scriptParameters" value="-DmainClass=MainTestKt --quiet" />
       <option name="taskDescriptions">

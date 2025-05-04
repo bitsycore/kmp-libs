@@ -2,7 +2,7 @@
   <configuration default="false" name="RUN: Lib (JVM)" type="GradleRunConfiguration" factoryName="Gradle" folderName="Run Lib">
     <ExternalSystemSettings>
       <option name="executionName" />
-      <option name="externalProjectPath" value="C:\Dev\_Kotlin\Kaddie\testConsole" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/app-console" />
       <option name="externalSystemIdString" value="GRADLE" />
       <option name="scriptParameters" value="-DmainClass=MainTestKt --quiet" />
       <option name="taskDescriptions">

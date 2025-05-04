@@ -1,7 +1,7 @@
-import sh.bitsy.lib.katstrace.Stacktrace
 import sh.bitsy.lib.kloggy.AnsiEscapeUtil
 import sh.bitsy.lib.kloggy.LogLevels
 import sh.bitsy.lib.kloggy.log
+import sh.bitsy.lib.kstacktrace.Stacktrace
 import sh.bitsy.test.Hello
 import sh.bitsy.test.secondShow
 
@@ -65,7 +65,7 @@ fun testLog() {
     log("Main", "Hello, world!", LogLevels.Info)
     log("Main", "Hello, world!", LogLevels.Verbose)
     log("Main", "Hello, world!", LogLevels.Debug)
-    log("Main", "Server Answer : ${dummyJson.replace("\n", "")}", LogLevels.Debug)
+    log("Main", "Server Answer : ${dummyJson.replace("\n", "").replace("\t", "").replace(" ", "")}", LogLevels.Debug)
     log("Main", "Hello, world!", LogLevels.Debug)
     log("Main", "Hello, world!", LogLevels.Verbose)
     log("UserManager", "Hello, world!", LogLevels.Warning)

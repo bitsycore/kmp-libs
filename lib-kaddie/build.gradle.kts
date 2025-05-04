@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.compose)
 }
 
 val javaVersion: JavaVersion by rootProject.extra
@@ -83,14 +82,8 @@ kotlin {
         val jvmAndAndroidMain by creating {
             dependsOn(commonMain.get())
         }
-
         androidMain {
             dependsOn(jvmAndAndroidMain)
-            dependencies {
-                implementation(libs.androidx.compose.runtime)
-                implementation(libs.androidx.activity.compose)
-                implementation(libs.androidx.lifecycle.viewmodel.compose)
-            }
         }
         jvmMain {
             dependsOn(jvmAndAndroidMain)
