@@ -7,9 +7,11 @@ import kotlin.reflect.KClass
 // =================================
 
 internal val container = DIContainerImpl().also {
-    val providers = getExternalProviders()
-    providers.forEach { provider -> it.registerExternalProvider(provider) }
+    val providers = getDefaultProviders()
+    providers.forEach { provider -> it.registerProvider(provider) }
 }
+
+fun registerProvider(provider: Provider) = container.registerProvider(provider)
 
 // =================================
 // MARK: REGISTER

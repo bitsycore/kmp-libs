@@ -13,12 +13,12 @@ interface MutableDIContainer : DiContainer {
     fun <T : Any> register(klass: KClass<T>, constructor: DependencyConstructor<T>)
     fun clear()
     fun remove(key: KClass<*>)
-    fun registerExternalProvider(externalProvider: ExternalProvider)
+    fun registerProvider(externalProvider: Provider)
 }
 
 class DIContainerImpl : MutableDIContainer {
-    private val dependencies = mutableMapOf<KClass<*>, SingleProvider<*>>()
-    private val externalProviderList = mutableListOf<ExternalProvider>()
+    private val dependencies = mutableMapOf<KClass<*>, InternalProvider<*>>()
+    private val externalProviderList = mutableListOf<Provider>()
 
     override fun <T : Any> register(klass: KClass<T>, instance: T) {
         dependencies[klass] = InstanceProvider(instance)
@@ -38,7 +38,7 @@ class DIContainerImpl : MutableDIContainer {
         dependencies.remove(key)
     }
 
-    override fun registerExternalProvider(externalProvider: ExternalProvider) {
+    override fun registerProvider(externalProvider: Provider) {
         externalProviderList.add(externalProvider)
     }
 

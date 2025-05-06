@@ -1,9 +1,12 @@
 package sh.bitsy.lib.kaddie
 
 import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import java.lang.reflect.InvocationTargetException
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
@@ -30,7 +33,7 @@ fun <VM : ViewModel> getViewModelDependency(klass: KClass<VM>, viewModelStoreOwn
 fun <VM : ViewModel> getViewModelDependency(clazz: Class<VM>, viewModelStoreOwner: ViewModelStoreOwner): VM =
 	getDependency(clazz = clazz, viewModelStoreOwner)
 
-class ExternalProviderViewModel : ExternalProvider {
+class ViewModelProvider() : Provider {
 
 	override fun <T : Any> get(parentDependencies: DiContainer, klass: KClass<T>, vararg extraParam: Any): T? {
 		if (extraParam.isEmpty()) return null
