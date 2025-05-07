@@ -57,7 +57,7 @@ class ViewModelProvider() : Provider {
 			val instance = ViewModelProvider(viewModelStoreOwner, viewModelFactoryWithDependencies(constructor, constructor.getDependenciesAsMap(diContainer, extraParam)))[klass]
 			return instance
 		} catch (e: InvocationTargetException) {
-			Log.e("ExternalProviderViewModel", "Error creating ViewModel: ", e.targetException)
+			Log.e("ViewModelProvider", "Error creating ViewModel: ", e.targetException)
 			return null
 		}
 	}

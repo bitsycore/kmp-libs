@@ -31,16 +31,16 @@ fun <T : Any> registerDependency(klass: KClass<T>, instance: T) = container.regi
  * The constructor will be called when the dependency is requested.
  * Use get() in the constructor to retrieve a dependency.
  */
-inline fun <reified T : Any> registerDependency(noinline constructor: DependencyConstructor<T>) =
-    registerDependency(T::class, constructor)
+inline fun <reified T : Any> registerDependency(noinline factory: DependencyFactory<T>) =
+    registerDependency(T::class, factory)
 
 /**
  * Register a dependency with a constructor globally.
  * The constructor will be called when the dependency is requested.
  * Use get() in the constructor to retrieve a dependency.
  */
-fun <T : Any> registerDependency(klass: KClass<T>, constructor: DependencyConstructor<T>) =
-    container.register(klass, constructor)
+fun <T : Any> registerDependency(klass: KClass<T>, factory: DependencyFactory<T>) =
+    container.register(klass, factory)
 
 // =================================
 // MARK: GET

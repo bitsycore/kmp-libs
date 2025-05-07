@@ -10,40 +10,40 @@ interface DiContainer {
 
 interface MutableDIContainer : DiContainer {
     fun <T : Any> register(klass: KClass<T>, instance: T)
-    fun <T : Any> register(klass: KClass<T>, constructor: DependencyConstructor<T>)
+    fun <T : Any> register(klass: KClass<T>, constructor: DependencyFactory<T>)
     fun clear()
     fun remove(key: KClass<*>)
-    fun registerProvider(externalProvider: Provider)
+    fun registerProvider(provider: Provider)
 }
 
 class DIContainerImpl : MutableDIContainer {
-    private val dependencies = mutableMapOf<KClass<*>, InternalProvider<*>>()
-    private val externalProviderList = mutableListOf<Provider>()
+    private val dependenciesList = mutableMapOf<KClass<*>, Holder<*>>()
+    private val providerList = mutableListOf<Provider>()
 
     override fun <T : Any> register(klass: KClass<T>, instance: T) {
-        dependencies[klass] = InstanceProvider(instance)
+        dependenciesList[klass] = InstanceHolder(instance)
     }
 
-    override fun <T : Any> register(klass: KClass<T>, constructor: DependencyConstructor<T>) {
-        dependencies[klass] = ConstructorProvider(this, constructor)
+    override fun <T : Any> register(klass: KClass<T>, constructor: DependencyFactory<T>) {
+        dependenciesList[klass] = FactoryHolder(this, constructor)
     }
 
-    override fun <T : Any> has(klass: KClass<T>): Boolean = dependencies.containsKey(klass)
+    override fun <T : Any> has(klass: KClass<T>): Boolean = dependenciesList.containsKey(klass)
 
-    override fun getKeys(): Set<KClass<*>> = dependencies.keys
+    override fun getKeys(): Set<KClass<*>> = dependenciesList.keys
 
-    override fun clear() = dependencies.clear()
+    override fun clear() = dependenciesList.clear()
 
     override fun remove(key: KClass<*>) {
-        dependencies.remove(key)
+        dependenciesList.remove(key)
     }
 
-    override fun registerProvider(externalProvider: Provider) {
-        externalProviderList.add(externalProvider)
+    override fun registerProvider(provider: Provider) {
+        providerList.add(provider)
     }
 
     override fun <T : Any> get(klass: KClass<T>, vararg extraParam: Any): T {
-        val provider = dependencies[klass]
+        val provider = dependenciesList[klass]
         if (provider == null) {
             return getFromExternalProvider(this, klass, extraParam) ?: throw DependencyNotFoundException(klass.toString())
         } else {
@@ -53,7 +53,7 @@ class DIContainerImpl : MutableDIContainer {
     }
 
     private fun <T : Any> getFromExternalProvider(diContainer: DiContainer, klass: KClass<T>, extraParam: Array<out Any>): T? {
-        for (provider in externalProviderList) {
+        for (provider in providerList) {
             val instance = provider.get(diContainer, klass, *extraParam)
             if (instance != null) {
                 return instance
