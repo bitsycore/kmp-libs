@@ -1,5 +1,5 @@
 package sh.bitsy.lib.kaddie
 
-actual fun getDefaultProviders(): List<Provider> = listOf(
+actual fun getDefaultDependencyProviders(): List<DependencyProvider> = listOf(
 	JvmReflectiveProvider()
 )

@@ -33,7 +33,7 @@ fun <VM : ViewModel> getViewModelDependency(klass: KClass<VM>, viewModelStoreOwn
 fun <VM : ViewModel> getViewModelDependency(clazz: Class<VM>, viewModelStoreOwner: ViewModelStoreOwner): VM =
 	getDependency(clazz = clazz, viewModelStoreOwner)
 
-class ViewModelProvider() : Provider {
+class ViewModelDependencyProvider() : DependencyProvider {
 
 	override fun <T : Any> get(parentDependencies: DiContainer, klass: KClass<T>, vararg extraParam: Any): T? {
 		if (extraParam.isEmpty()) return null
@@ -42,10 +42,10 @@ class ViewModelProvider() : Provider {
 		@Suppress("UNCHECKED_CAST")
 		val castedClazz = klass as? KClass<ViewModel> ?: return null
 		@Suppress("UNCHECKED_CAST")
-		return ifTypeViewModel(viewModelStoreOwner, extraParam, parentDependencies, castedClazz) as? T
+		return getOrCreateInstance(viewModelStoreOwner, extraParam, parentDependencies, castedClazz) as? T
 	}
 
-	private fun ifTypeViewModel(viewModelStoreOwner: ViewModelStoreOwner, extraParam: Array<out Any>, diContainer: DiContainer, klass: KClass<ViewModel>): ViewModel? {
+	private fun getOrCreateInstance(viewModelStoreOwner: ViewModelStoreOwner, extraParam: Array<out Any>, diContainer: DiContainer, klass: KClass<ViewModel>): ViewModel? {
 		val constructor = klass.getConstructorForReflection()
 
 		if ((constructor == null) || constructor.parameters.isEmpty()) {
@@ -54,7 +54,7 @@ class ViewModelProvider() : Provider {
 		}
 
 		try {
-			val instance = ViewModelProvider(viewModelStoreOwner, viewModelFactoryWithDependencies(constructor, constructor.getDependenciesAsMap(diContainer, extraParam)))[klass]
+			val instance = ViewModelProvider(viewModelStoreOwner, viewModelFactory(constructor, constructor.getDependenciesAsMap(diContainer, extraParam)))[klass]
 			return instance
 		} catch (e: InvocationTargetException) {
 			Log.e("ViewModelProvider", "Error creating ViewModel: ", e.targetException)
@@ -62,7 +62,7 @@ class ViewModelProvider() : Provider {
 		}
 	}
 
-	private fun viewModelFactoryWithDependencies(
+	private fun viewModelFactory(
 		constructor: KFunction<ViewModel>,
 		dependencies: Map<KParameter, Any>
 	) = object : ViewModelProvider.Factory {

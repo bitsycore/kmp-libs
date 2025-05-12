@@ -1,3 +1,3 @@
 package sh.bitsy.lib.kaddie
 
-actual fun getDefaultProviders(): List<Provider> = emptyList()
+actual fun getDefaultDependencyProviders(): List<DependencyProvider> = emptyList()

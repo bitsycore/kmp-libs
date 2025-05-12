@@ -3,7 +3,7 @@ package sh.bitsy.lib.kaddie
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.javaConstructor
 
-class JvmReflectiveProvider : Provider {
+class JvmReflectiveProvider : DependencyProvider {
 
 	val dependencies: MutableMap<KClass<*>, Any> = mutableMapOf()
 
