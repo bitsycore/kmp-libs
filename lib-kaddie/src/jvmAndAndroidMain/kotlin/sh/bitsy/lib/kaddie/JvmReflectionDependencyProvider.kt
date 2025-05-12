@@ -3,11 +3,11 @@ package sh.bitsy.lib.kaddie
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.javaConstructor
 
-class JvmReflectiveProvider : DependencyProvider {
+class JvmReflectionDependencyProvider : DependencyProvider {
 
 	val dependencies: MutableMap<KClass<*>, Any> = mutableMapOf()
 
-	override fun <T : Any> get(parentDependencies: DiContainer, klass: KClass<T>, vararg extraParam: Any): T? {
+	override fun <T : Any> getDependency(parentDependencies: DiContainer, klass: KClass<T>, vararg extraParam: Any): T? {
 		try {
 			@Suppress("UNCHECKED_CAST")
 			dependencies[klass]?.let { return it as? T }

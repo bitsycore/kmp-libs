@@ -35,7 +35,7 @@ fun <VM : ViewModel> getViewModelDependency(clazz: Class<VM>, viewModelStoreOwne
 
 class ViewModelDependencyProvider() : DependencyProvider {
 
-	override fun <T : Any> get(parentDependencies: DiContainer, klass: KClass<T>, vararg extraParam: Any): T? {
+	override fun <T : Any> getDependency(parentDependencies: DiContainer, klass: KClass<T>, vararg extraParam: Any): T? {
 		if (extraParam.isEmpty()) return null
 		val viewModelStoreOwner = extraParam[0] as? ViewModelStoreOwner ?: return null
 		if (!klass.isSubclassOf(ViewModel::class)) return null

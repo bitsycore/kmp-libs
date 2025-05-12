@@ -18,7 +18,7 @@ fun KFunction<*>.getDependenciesAsMap(diContainer: DiContainer, extraParam: Arra
 
 		// Check if that dependency was already provided
 		try {
-			diContainer.get(paramClass, extraParam).let {
+			diContainer.getDependency(paramClass, *extraParam).let {
 				dependencies[param] = it
 				return@forEach
 			}
@@ -27,7 +27,7 @@ fun KFunction<*>.getDependenciesAsMap(diContainer: DiContainer, extraParam: Arra
 
 		// Ignore optional parameters
 		if (!param.isOptional) {
-			dependencies[param] = diContainer.get(paramClass, extraParam)
+			dependencies[param] = diContainer.getDependency(paramClass, *extraParam)
 		}
 	}
 	return dependencies
