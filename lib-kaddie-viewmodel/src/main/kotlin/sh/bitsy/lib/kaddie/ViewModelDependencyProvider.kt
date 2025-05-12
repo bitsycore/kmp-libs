@@ -1,13 +1,11 @@
 package sh.bitsy.lib.kaddie
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import java.lang.reflect.InvocationTargetException
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
@@ -53,13 +51,8 @@ class ViewModelDependencyProvider() : DependencyProvider {
 			return instance
 		}
 
-		try {
-			val instance = ViewModelProvider(viewModelStoreOwner, viewModelFactory(constructor, constructor.getDependenciesAsMap(diContainer, extraParam)))[klass]
-			return instance
-		} catch (e: InvocationTargetException) {
-			Log.e("ViewModelProvider", "Error creating ViewModel: ", e.targetException)
-			return null
-		}
+		val instance = ViewModelProvider(viewModelStoreOwner, viewModelFactory(constructor, constructor.getDependenciesAsMap(diContainer, extraParam)))[klass]
+		return instance
 	}
 
 	private fun viewModelFactory(

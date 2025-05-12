@@ -43,25 +43,29 @@ internal class DIContainerImpl : MutableDIContainer {
     }
 
     override fun <T : Any> getDependency(klass: KClass<T>, vararg extraParam: Any): T {
-        val provider = dependenciesList[klass]
-        if (provider == null) {
-            return getFromDependencyProvider(this, klass, extraParam) ?: throw DependencyNotFoundException(klass.toString())
+        val dependency = dependenciesList[klass]
+        if (dependency == null) {
+            return getFromDependencyProvider(this, klass, extraParam)
         } else {
             @Suppress("UNCHECKED_CAST")
-            return provider.get() as T
+            return dependency.get() as T
         }
     }
 
-    private fun <T : Any> getFromDependencyProvider(diContainer: DiContainer, klass: KClass<T>, extraParam: Array<out Any>): T? {
+    private fun <T : Any> getFromDependencyProvider(diContainer: DiContainer, klass: KClass<T>, extraParam: Array<out Any>): T {
         for (provider in dependencyProviders.reversed()) {
-            val instance = provider.getDependency(diContainer, klass, *extraParam)
-            if (instance != null) {
-                return instance
+            try {
+                val instance = provider.getDependency(diContainer, klass, *extraParam)
+                if (instance != null) {
+                    return instance
+                }
+            } catch (e: Exception) {
+                throw DependencyInstancingException(e.message ?: "Unknown error")
             }
         }
-        return null
+        throw DependencyNotFoundException(klass.toString())
     }
-
 }
 
+class DependencyInstancingException(message: String) : Exception("Dependency instancing error: $message")
 class DependencyNotFoundException(message: String) : Exception("Dependency not found: $message")
