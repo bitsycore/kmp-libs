@@ -4,16 +4,17 @@ import kotlin.reflect.KClass
 
 interface DiContainer {
     fun <T : Any> getDependency(klass: KClass<T>, vararg extraParam: Any = emptyArray()): T
-    fun <T : Any> hasDependency(klass: KClass<T>): Boolean
-    fun getKeys(): Set<KClass<*>>
+    fun <T : Any> hasRegisteredDependency(klass: KClass<T>): Boolean
+    fun getRegisteredDependenciesKeys(): Set<KClass<*>>
 }
 
 interface MutableDIContainer : DiContainer {
     fun <T : Any> registerDependency(klass: KClass<T>, instance: T)
     fun <T : Any> registerDependency(klass: KClass<T>, factory: DependencyFactory<T>)
-    fun clearDependencies()
-    fun removeDependency(key: KClass<*>)
+    fun clearRegisteredDependencies()
+    fun removeRegisteredDependency(klass: KClass<*>)
     fun registerDependencyProvider(dependencyProvider: DependencyProvider)
+    fun removeDependencyProvider(dependencyProvider: DependencyProvider)
 }
 
 internal class DIContainerImpl : MutableDIContainer {
@@ -28,18 +29,22 @@ internal class DIContainerImpl : MutableDIContainer {
         dependenciesList[klass] = FactoryHolder(this, factory)
     }
 
-    override fun <T : Any> hasDependency(klass: KClass<T>): Boolean = dependenciesList.containsKey(klass)
+    override fun <T : Any> hasRegisteredDependency(klass: KClass<T>): Boolean = dependenciesList.containsKey(klass)
 
-    override fun getKeys(): Set<KClass<*>> = dependenciesList.keys
+    override fun getRegisteredDependenciesKeys(): Set<KClass<*>> = dependenciesList.keys
 
-    override fun clearDependencies() = dependenciesList.clear()
+    override fun clearRegisteredDependencies() = dependenciesList.clear()
 
-    override fun removeDependency(key: KClass<*>) {
-        dependenciesList.remove(key)
+    override fun removeRegisteredDependency(klass: KClass<*>) {
+        dependenciesList.remove(klass)
     }
 
     override fun registerDependencyProvider(dependencyProvider: DependencyProvider) {
         dependencyProviders.add(dependencyProvider)
+    }
+
+    override fun removeDependencyProvider(dependencyProvider: DependencyProvider) {
+        dependencyProviders.remove(dependencyProvider)
     }
 
     override fun <T : Any> getDependency(klass: KClass<T>, vararg extraParam: Any): T {
