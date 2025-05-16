@@ -1,8 +1,12 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
+
+val javaVersion: JavaVersion by rootProject.extra
 
 android {
     namespace = "sh.bitsy.lib.kaddie"
@@ -22,8 +26,6 @@ android {
         }
     }
 
-    val javaVersion: JavaVersion by rootProject.extra
-
     compileOptions {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
@@ -32,9 +34,11 @@ android {
     buildFeatures {
         compose = true
     }
+}
 
-    kotlinOptions {
-        jvmTarget = javaVersion.toString()
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget(javaVersion.toString())
     }
 }
 

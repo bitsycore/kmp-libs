@@ -32,16 +32,15 @@ kotlin {
     // Jvm
     jvm {
         compilerOptions {
-            jvmTarget.set(JvmTarget.fromTarget(javaVersion.toString()))
+            jvmTarget = JvmTarget.fromTarget(javaVersion.toString())
         }
     }
 
     // ===================================
     // Android
     androidTarget {
-        // Android depend on the JVM target
         compilerOptions {
-            jvmTarget.set(JvmTarget.fromTarget(javaVersion.toString()))
+            jvmTarget = JvmTarget.fromTarget(javaVersion.toString())
         }
 
     }
