@@ -19,7 +19,6 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "Kaddie"
 
-include(":app-compose")
 include(":app-console")
 
 include(":lib-kaddie")
