@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
-project.extra["targetSdk"] = 34
-project.extra["compileSdk"] = 34
+project.extra["targetSdk"] = 36
+project.extra["compileSdk"] = 36
 project.extra["minSdk"] = 24
 project.extra["javaVersion"] = JavaVersion.VERSION_17
