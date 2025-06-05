@@ -58,7 +58,7 @@ internal class DIContainerImpl : MutableDIContainer {
     }
 
     private fun <T : Any> getFromDependencyProvider(diContainer: DiContainer, klass: KClass<T>, extraParam: Array<out Any>): T {
-        for (provider in dependencyProviders.reversed()) {
+        for (provider in dependencyProviders.asReversed()) {
             try {
                 val instance = provider.getDependency(diContainer, klass, *extraParam)
                 if (instance != null) {
