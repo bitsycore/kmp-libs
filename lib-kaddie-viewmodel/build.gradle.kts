@@ -9,7 +9,7 @@ plugins {
 val javaVersion: JavaVersion by rootProject.extra
 
 android {
-    namespace = "sh.bitsy.lib.kaddie"
+    namespace = "sh.bitsy.lib.kaddie.viewmodel"
     compileSdk = rootProject.extra["compileSdk"] as Int
 
     defaultConfig {
